@@ -5,6 +5,7 @@ import numpy as np
 
 from environment import Environment
 
+GAME_URL = 'http://www.wesane.com/game/654/'
 RESULT_FILE = 'result.txt'
 
 ACTOR_LR = 0.0005  # 动作网络学习率
@@ -244,7 +245,7 @@ def train(url, browser, save_path):
         episode_result = np.mean(results, axis=0)
         episode_result = np.append(env.score, episode_result)
         episode_results.append(episode_result)
-        print('Episode {}: {}'.format(episode, episode_results[-1]))
+        print('Episode: {}, Score: {}, Critic loss: {}, Actor loss: {}'.format(episode, *episode_result))
 
         #  每隔10个episode保存一次模型权重和结果
         if (episode + 1) % 10 == 0 or episode + 1 == EPISODE_NUM:
@@ -257,5 +258,4 @@ def train(url, browser, save_path):
 
 
 if __name__ == '__main__':
-    import sys
-    train(sys.argv[1], 'Chrome', 'model/test/')
+    train(GAME_URL, 'Chrome', 'model/test/')
